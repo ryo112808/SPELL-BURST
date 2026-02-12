@@ -1,29 +1,99 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>spellBURST</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+  <title>SPELL BURST</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="screen">
 
-<div id="enemy">
-  <div>敵 HP: <span id="enemyHP"></span></div>
-</div>
+    <!-- Enemy -->
+    <section class="zone enemy-zone">
+      <div class="toprow">
+        <div class="label">ENEMY</div>
+        <div class="small" id="enemyInfo">HAND 7 / MP 3</div>
+      </div>
 
-<div id="field">
-  <div id="spellSlots"></div>
-  <button id="castBtn">発動</button>
-</div>
+      <div class="hp-wrap">
+        <div class="hp-bar"><div id="enemyHpFill" class="hp-fill"></div></div>
+        <div class="hp-text">HP <span id="enemyHp">50</span></div>
+      </div>
 
-<div id="mana"></div>
+      <div class="ready-row">
+        <div class="badge" id="enemyReady">NOT READY</div>
+      </div>
+    </section>
 
-<div id="player">
-  <div>自分 HP: <span id="playerHP"></span></div>
-  <div id="hand"></div>
-</div>
+    <!-- Field -->
+    <section class="zone field-zone">
+      <div class="field-grid">
+        <!-- Left: effects placeholder -->
+        <div class="panel left-panel">
+          <div class="panel-title">追加効果</div>
+          <div class="panel-sub">（演出優先のため後で実装）</div>
+        </div>
 
-<script src="game.js"></script>
+        <!-- Center: spell slots + mana selected -->
+        <div class="panel center-panel">
+          <div class="panel-title">魔術スロット</div>
+          <div class="slots">
+            <div class="slot" id="slot0">
+              <div class="slot-hint">SLOT 1</div>
+              <div class="slot-card" id="slotCard0"></div>
+            </div>
+            <div class="slot" id="slot1">
+              <div class="slot-hint">SLOT 2</div>
+              <div class="slot-card" id="slotCard1"></div>
+            </div>
+          </div>
+
+          <div class="mana-field">
+            <div class="panel-title">使用する魔素（タップで戻す）</div>
+            <div id="manaSelected" class="mana-selected"></div>
+          </div>
+
+          <button class="cast-button" id="castBtn">発動</button>
+
+          <div id="log" class="log"></div>
+        </div>
+
+        <!-- Right: mana pool -->
+        <div class="panel right-panel">
+          <div class="panel-title">魔素</div>
+          <div class="mana-pool" id="manaPool"></div>
+        </div>
+      </div>
+
+      <!-- FX Layer -->
+      <div id="fxLayer" class="fx-layer"></div>
+    </section>
+
+    <!-- Player -->
+    <section class="zone player-zone">
+      <div class="toprow">
+        <div class="label">YOU</div>
+        <div class="small" id="playerInfo">HAND 7 / MP 3</div>
+      </div>
+
+      <div class="hp-wrap">
+        <div class="hp-bar"><div id="playerHpFill" class="hp-fill"></div></div>
+        <div class="hp-text">HP <span id="playerHp">50</span></div>
+      </div>
+
+      <div class="ready-row">
+        <div class="badge on" id="playerReady">READY</div>
+      </div>
+
+      <div class="hand-wrap">
+        <div class="panel-title">手札（タップでスロットへ）</div>
+        <div id="hand" class="hand"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="game.js"></script>
 </body>
 </html>
