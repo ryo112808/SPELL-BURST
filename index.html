@@ -1,97 +1,91 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>SPELL BURST</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="screen">
+  <!-- 縦持ちでも“横画面UI”として表示するためのラッパ -->
+  <div id="rotateWrap">
+    <div id="app">
 
-    <!-- Enemy -->
-    <section class="zone enemy-zone">
-      <div class="toprow">
-        <div class="label">ENEMY</div>
-        <div class="small" id="enemyInfo">HAND 7 / MP 3</div>
-      </div>
+      <!-- 上：ENEMY -->
+      <header class="bar bar-top">
+        <div class="bar-left">
+          <div class="label">ENEMY</div>
+          <div class="stats">
+            <span id="eHP" class="pill">HP 50</span>
+            <span id="eMP" class="pill">MP 3</span>
+            <span id="eHand" class="pill">HAND 0</span>
+            <span id="eReady" class="pill pill-dim">NOT READY</span>
+          </div>
+        </div>
+      </header>
 
-      <div class="hp-wrap">
-        <div class="hp-bar"><div id="enemyHpFill" class="hp-fill"></div></div>
-        <div class="hp-text">HP <span id="enemyHp">50</span></div>
-      </div>
-
-      <div class="ready-row">
-        <div class="badge" id="enemyReady">NOT READY</div>
-      </div>
-    </section>
-
-    <!-- Field -->
-    <section class="zone field-zone">
-      <div class="field-grid">
-        <!-- Left: effects placeholder -->
-        <div class="panel left-panel">
+      <!-- 中央：FIELD -->
+      <main class="field">
+        <!-- 左：追加効果（今は枠だけ） -->
+        <section class="panel left">
           <div class="panel-title">追加効果</div>
-          <div class="panel-sub">（演出優先のため後で実装）</div>
-        </div>
+          <div class="sub">(演出・予約は次段)</div>
+          <div class="fanPlaceholder">EFFECTS</div>
+        </section>
 
-        <!-- Center: spell slots + mana selected -->
-        <div class="panel center-panel">
-          <div class="panel-title">魔術スロット</div>
+        <!-- 中央：スロット + 発動 + ログ -->
+        <section class="panel center">
+          <div class="panel-title">魔術スロット（最大2）</div>
+
           <div class="slots">
-            <div class="slot" id="slot0">
-              <div class="slot-hint">SLOT 1</div>
-              <div class="slot-card" id="slotCard0"></div>
+            <div class="slot">
+              <div class="slotTitle">SLOT 1</div>
+              <div id="pSlot1" class="slotCard empty">（空）</div>
             </div>
-            <div class="slot" id="slot1">
-              <div class="slot-hint">SLOT 2</div>
-              <div class="slot-card" id="slotCard1"></div>
+            <div class="slot">
+              <div class="slotTitle">SLOT 2</div>
+              <div id="pSlot2" class="slotCard empty">（空）</div>
             </div>
           </div>
 
-          <div class="mana-field">
-            <div class="panel-title">使用する魔素（タップで戻す）</div>
-            <div id="manaSelected" class="mana-selected"></div>
-          </div>
+          <button id="castBtn" class="cast" disabled>発動</button>
 
-          <button class="cast-button" id="castBtn">発動</button>
-
+          <div class="panel-title small">演出ログ</div>
           <div id="log" class="log"></div>
+
+          <div class="panel-title small">このターン使用する魔素（タップで戻す）</div>
+          <div id="manaField" class="manaField"></div>
+        </section>
+
+        <!-- 右：魔素 -->
+        <section class="panel right">
+          <div class="panel-title">魔素（所持）</div>
+          <div id="manaRack" class="manaRack"></div>
+          <div class="hint">右の魔素をタップ → フィールドへ</div>
+        </section>
+      </main>
+
+      <!-- 下：YOU -->
+      <footer class="bar bar-bottom">
+        <div class="bar-left">
+          <div class="label">YOU</div>
+          <div class="stats">
+            <span id="pHP" class="pill">HP 50</span>
+            <span id="pMP" class="pill">MP 3</span>
+            <span id="turn" class="pill">TURN 1/5</span>
+            <span id="pReady" class="pill pill-dim">NOT READY</span>
+          </div>
         </div>
+      </footer>
 
-        <!-- Right: mana pool -->
-        <div class="panel right-panel">
-          <div class="panel-title">魔素</div>
-          <div class="mana-pool" id="manaPool"></div>
-        </div>
-      </div>
-
-      <!-- FX Layer -->
-      <div id="fxLayer" class="fx-layer"></div>
-    </section>
-
-    <!-- Player -->
-    <section class="zone player-zone">
-      <div class="toprow">
-        <div class="label">YOU</div>
-        <div class="small" id="playerInfo">HAND 7 / MP 3</div>
-      </div>
-
-      <div class="hp-wrap">
-        <div class="hp-bar"><div id="playerHpFill" class="hp-fill"></div></div>
-        <div class="hp-text">HP <span id="playerHp">50</span></div>
-      </div>
-
-      <div class="ready-row">
-        <div class="badge on" id="playerReady">READY</div>
-      </div>
-
-      <div class="hand-wrap">
-        <div class="panel-title">手札（タップでスロットへ）</div>
+      <!-- 手札 -->
+      <section class="handWrap">
+        <div class="handTitle">手札（タップでスロットへ）</div>
         <div id="hand" class="hand"></div>
-      </div>
-    </section>
+        <div class="handHint">スロットのカードをタップ → 手札へ戻る</div>
+      </section>
 
+    </div>
   </div>
 
   <script src="game.js"></script>
